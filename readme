@@ -1,0 +1,20 @@
+# Gerenciamento Imobiliário
+
+Este projeto implementa um sistema de gerenciamento de propriedades imobiliárias utilizando MySQL. O sistema inclui tabelas para propriedades, clientes, agentes e transações, permitindo o registro e consulta de informações relacionadas.
+
+## Estrutura do Banco de Dados
+
+O banco de dados contém as seguintes tabelas:
+
+1. **propriedades**: Armazena informações sobre as propriedades, incluindo endereço, tipo, valor e status.
+2. **clientes**: Contém os dados dos clientes, como nome, telefone e email.
+3. **agentes**: Guarda informações dos agentes imobiliários, incluindo nome, telefone e email.
+4. **transacoes**: Registra as transações de compra e aluguel, vinculando clientes, agentes e propriedades.
+
+## Comandos SQL
+
+### Criação do Banco de Dados
+
+```sql
+CREATE DATABASE gerenciamento_imobiliario;
+USE gerenciamento_imobiliario;
