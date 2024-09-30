@@ -1,0 +1,21 @@
+
+### .gitignore
+
+```gitignore
+# Ignorar arquivos de configuração do MySQL
+*.sql
+*.db
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar arquivos temporários
+*.tmp
+
+# Ignorar sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignorar editor de texto
+*.swp
+*.swo
