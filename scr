@@ -1,0 +1,106 @@
+CREATE DATABASE gerenciamento_imobiliario;
+
+USE gerenciamento_imobiliario;
+
+CREATE TABLE propriedades (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    endereco VARCHAR(255) NOT NULL,
+    tipo VARCHAR(50) NOT NULL, -- Ex: 'Casa', 'Apartamento', 'Comercial'
+    valor DECIMAL(10, 2) NOT NULL,
+    status ENUM('Disponível', 'Vendido', 'Alugado') NOT NULL
+);
+
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(15) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE agentes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(15) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE transacoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    agente_id INT NOT NULL,
+    propriedade_id INT NOT NULL,
+    data_transacao DATE NOT NULL,
+    tipo_transacao ENUM('Compra', 'Aluguel') NOT NULL,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+    FOREIGN KEY (agente_id) REFERENCES agentes(id),
+    FOREIGN KEY (propriedade_id) REFERENCES propriedades(id)
+);
+
+INSERT INTO propriedades (endereco, tipo, valor, status) VALUES
+('Rua A, 123', 'Casa', 300000.00, 'Disponível'),
+('Avenida B, 456', 'Apartamento', 200000.00, 'Disponível');
+
+INSERT INTO clientes (nome, telefone, email) VALUES
+('João da Silva', '123456789', 'joao@email.com'),
+('Maria Oliveira', '987654321', 'maria@email.com');
+
+INSERT INTO agentes (nome, telefone, email) VALUES
+('Carlos Mendes', '1122334455', 'carlos@email.com'),
+('Ana Paula', '5544332211', 'ana@email.com');
+
+INSERT INTO transacoes (cliente_id, agente_id, propriedade_id, data_transacao, tipo_transacao) VALUES
+(1, 1, 1, '2024-01-15', 'Compra'),
+(2, 2, 2, '2024-02-20', 'Aluguel');
+
+SELECT * FROM propriedades;
+
+SELECT * FROM clientes;
+
+SELECT * FROM agentes;
+
+SELECT * FROM transacoes;
+
+SELECT 
+    t.id AS transacao_id,
+    c.nome AS cliente_nome,
+    a.nome AS agente_nome,
+    p.endereco AS propriedade_endereco,
+    t.data_transacao,
+    t.tipo_transacao
+FROM 
+    transacoes t
+JOIN 
+    clientes c ON t.cliente_id = c.id
+JOIN 
+    agentes a ON t.agente_id = a.id
+JOIN 
+    propriedades p ON t.propriedade_id = p.id;
+
+SELECT * FROM propriedades WHERE status = 'Disponível';
+
+SELECT 
+    t.id AS transacao_id,
+    p.endereco AS propriedade_endereco,
+    t.data_transacao,
+    t.tipo_transacao
+FROM 
+    transacoes t
+JOIN 
+    propriedades p ON t.propriedade_id = p.id
+WHERE 
+    t.cliente_id = 1; 
+
+SELECT 
+    t.id AS transacao_id,
+    c.nome AS cliente_nome,
+    p.endereco AS propriedade_endereco,
+    t.data_transacao,
+    t.tipo_transacao
+FROM 
+    transacoes t
+JOIN 
+    clientes c ON t.cliente_id = c.id
+JOIN 
+    propriedades p ON t.propriedade_id = p.id
+WHERE 
+    t.agente_id = 2; 
